@@ -3,14 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"math"
 	"net/http"
-	"io"
 )
 
 type HeightWeight struct {
-    Height float64 `json:"height"`
-    Weight float64 `json:"weight"`
+	Height float64 `json:"height"`
+	Weight float64 `json:"weight"`
 }
 
 type Bmis struct {
@@ -19,7 +19,7 @@ type Bmis struct {
 
 func calc_bmi(hw HeightWeight) Bmis {
 	var bmi Bmis
-	bmi.Bmi = hw.Weight / math.Pow(hw.Height / 100, 2)
+	bmi.Bmi = hw.Weight / math.Pow(hw.Height/100, 2)
 	return bmi
 }
 
@@ -39,7 +39,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	body := make([]byte, r.ContentLength)
 	// bodyにリクエストのbodyを代入
 	length, err := r.Body.Read(body)
-	if err != nil && err != io.EOF{
+	if err != nil && err != io.EOF {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -54,7 +54,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)  
+	w.WriteHeader(http.StatusOK)
 	bmi := calc_bmi(hw)
 	// bmis -> json
 	jsonBytes, err := json.MarshalIndent(bmi, "", "    ")
@@ -68,8 +68,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(jsonBytes))
 	fmt.Fprintf(w, "\n")
 }
-
-
 
 func main() {
 	// http://localhost:5000 にhandler関数を割り当て

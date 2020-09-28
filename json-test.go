@@ -8,8 +8,8 @@ import (
 )
 
 type HeightWeight struct {
-    Height float64 `json:"height"`
-    Weight float64 `json:"weight"`
+	Height float64 `json:"height"`
+	Weight float64 `json:"weight"`
 }
 
 type Bmis struct {
@@ -18,10 +18,9 @@ type Bmis struct {
 
 func calc_bmi(hw HeightWeight) Bmis {
 	var bmi Bmis
-	bmi.Bmi = hw.Weight / math.Pow(hw.Height / 100, 2)
+	bmi.Bmi = hw.Weight / math.Pow(hw.Height/100, 2)
 	return bmi
 }
-
 
 func main() {
 	// JSON形式の文字列を定義
